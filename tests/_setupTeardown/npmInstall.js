@@ -1,7 +1,12 @@
 import { resolve } from 'path'
 import execa from 'execa'
 import promiseMap from 'p-map'
-import { checkDockerDaemon, detectExecutable } from '../../src/utils/index.js'
+import {
+  checkDockerDaemon,
+  detectExecutable,
+  detectDotNetCore,
+  detectPowerShell,
+} from '../../src/utils/index.js'
 
 const executables = ['python2', 'python3', 'ruby', 'java']
 
@@ -61,6 +66,12 @@ export default async function npmInstall() {
 
   if (java) {
     process.env.JAVA_DETECTED = true
+  }
+
+  const dotnetcore31 = detectDotNetCore('3.1')
+  const powershell = detectPowerShell()
+  if (dotnetcore31 && powershell) {
+    process.env.DOTNETCORE31_DETECTED = true
   }
 
   return promiseMap(testFolders, (path) => installNpmModules(path), {

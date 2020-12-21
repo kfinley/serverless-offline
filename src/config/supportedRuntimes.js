@@ -2,12 +2,13 @@
 // https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
 
 // .NET CORE
-export const supportedDotnetcore = new Set([
+export const supportedDotNetCore = new Set([
   // deprecated
   // 'dotnetcore1.0',
   // 'dotnetcore2.0',
   // supported
   // 'dotnetcore2.1'
+  'dotnetcore3.1',
 ])
 
 // GO
@@ -44,7 +45,7 @@ export const supportedRuby = new Set(['ruby2.5', 'ruby2.7'])
 // deprecated runtimes
 // https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html
 export const supportedRuntimes = new Set([
-  ...supportedDotnetcore,
+  ...supportedDotNetCore,
   ...supportedGo,
   ...supportedJava,
   ...supportedNodejs,

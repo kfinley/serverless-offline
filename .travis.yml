@@ -11,6 +11,9 @@ node_js:
   - 12
   - 14
 
+install:
+- ./travis/install.sh
+
 script:
   - npm run lint
   - npm test

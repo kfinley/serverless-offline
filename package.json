@@ -7,7 +7,7 @@
   "main": "dist/main.js",
   "type": "commonjs",
   "scripts": {
-    "build": "rimraf dist && babel src --ignore \"**/__tests__/**/*\" --out-dir dist && copyfiles -u 1 \"src/**/*.{vm,py,rb}\" dist",
+    "build": "rimraf dist && babel src --ignore \"**/__tests__/**/*\" --out-dir dist && copyfiles -u 1 \"src/**/*.{vm,py,rb,ps1}\" dist",
     "lint": "eslint .",
     "format": "eslint . --fix",
     "list-contributors": "echo 'clone https://github.com/mgechev/github-contributors-list.git first, then run npm install' && cd ../github-contributors-list && node bin/githubcontrib --owner dherault --repo serverless-offline --sortBy contributions --showlogin true --sortOrder desc > contributors.md",
@@ -18,7 +18,9 @@
     "test:cov": "npm run build && jest --coverage --silent --runInBand --collectCoverageFrom=src/**/*.js",
     "test:log": "npm run build && jest --verbose",
     "test:noBuild": "jest --verbose --runInBand --bail",
-    "test:watch": "SKIP_SETUP=true jest --verbose --watch"
+    "test:watch": "SKIP_SETUP=true jest --verbose --watch",
+    "test:dotnet": "jest --verbose --silent --runInBand --config jest.config.dotnet.js",
+    "dotnet:package": "cd tests/integration/dotnet && dotnet restore && dotnet lambda package --configuration debug --framework netcoreapp3.1 --output-package deploy-package.zip"
   },
   "repository": {
     "type": "git",

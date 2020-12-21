@@ -5,6 +5,7 @@ import {
   supportedPython,
   supportedRuby,
   supportedJava,
+  supportedDotNetCore,
 } from '../../config/index.js'
 import { satisfiesVersionRange } from '../../utils/index.js'
 
@@ -37,6 +38,11 @@ export default class HandlerRunner {
     } = this.#funOptions
 
     debugLog(`Loading handler... (${handlerPath})`)
+
+    if (supportedDotNetCore.has(runtime)) {
+      const { default: DotNetRunner } = await import('./dotnet-runner/index.js')
+      return new DotNetRunner(this.#funOptions, this.#env, allowCache)
+    }
 
     if (useDocker) {
       const dockerOptions = {
@@ -95,7 +101,7 @@ export default class HandlerRunner {
     }
 
     // TODO FIXME
-    throw new Error('Unsupported runtime')
+    throw new Error(`Unsupported runtime: ${runtime}`)
   }
 
   _verifyWorkerThreadCompatibility() {

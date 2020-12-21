@@ -110,7 +110,10 @@ export default class LambdaFunction {
       handler,
       handlerName,
       codeDir: this.#codeDir,
-      handlerPath: resolve(this.#codeDir, handlerPath),
+      handlerPath:
+        this.#runtime === 'dotnetcore3.1'
+          ? handlerPath
+          : resolve(this.#codeDir, handlerPath),
       runtime,
       serverlessPath,
       servicePath: _servicePath,
@@ -145,6 +148,7 @@ export default class LambdaFunction {
 
   _verifySupportedRuntime() {
     // print message but keep working (don't error out or exit process)
+
     if (!supportedRuntimes.has(this.#runtime)) {
       // this.printBlankLine(); // TODO
       console.log('')

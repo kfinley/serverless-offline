@@ -21,3 +21,10 @@ npm-debug.log*
 
 # examples
 examples/**/package-lock.json
+
+# dotnet
+bin
+obj
+
+# macOS
+.DS_Store
