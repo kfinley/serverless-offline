@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ $TRAVIS_OS_NAME = 'osx' ]; then
+if [[ "${TRAVIS_OS_NAME}" = 'osx' ]]; then
     curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --runtime dotnet --version 3.1.10
     brew install --cask powershell
-elif [$TRAVIS_OS_NAME = 'linux']; then
+elif [[ "${TRAVIS_OS_NAME}" = 'linux' ]]; then
     sudo apt-get update
     sudo apt-get install -y wget apt-transport-https software-properties-common
     wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
