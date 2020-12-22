@@ -28,25 +28,8 @@ _describe('dotnet tests', () => {
     const url = joinUrl(TEST_BASE_URL, test.path)
     const response = await fetch(url)
     const json = await response.json()
-    const data = JSON.parse(json.replace(/\\"/g, '"'))
+    const data = JSON.parse(json)
     expect(data).toEqual(test.expected)
-  })
-
-  it('should pass string input to dotnet', async () => {
-    const test = {
-      expected: 'test input string',
-      body: 'test input string',
-      path: '/dev/input',
-    }
-
-    const url = joinUrl(TEST_BASE_URL, test.path)
-    const response = await fetch(url, {
-      method: 'post',
-      body: test.body,
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const json = await response.json()
-    expect(json).toEqual(test.expected)
   })
 
   it('should pass correct event Type to dotnet', async () => {
@@ -88,7 +71,7 @@ _describe('dotnet tests', () => {
     const url = joinUrl(TEST_BASE_URL, test.path)
     const response = await fetch(url)
     const json = await response.json()
-    const data = JSON.parse(json.replace(/\\"/g, '"'))
+    const data = JSON.parse(json)
     expect(data.context.FunctionName).toEqual(test.expected.functionName)
     expect(data.context.FunctionVersion).toEqual(test.expected.functionVersion)
     expect(data.context.InvokedFunctionArn).toEqual(
