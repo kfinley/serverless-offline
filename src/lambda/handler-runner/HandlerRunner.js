@@ -40,8 +40,16 @@ export default class HandlerRunner {
     debugLog(`Loading handler... (${handlerPath})`)
 
     if (supportedDotNetCore.has(runtime)) {
-      const { default: DotNetRunner } = await import('./dotnet-runner/index.js')
-      return new DotNetRunner(this.#funOptions, this.#env, allowCache)
+      const dotnetOptions = {
+        script: this.#options.dotnetRunnerScript,
+      }
+      const { default: DotnetRunner } = await import('./dotnet-runner/index.js')
+      return new DotnetRunner(
+        this.#funOptions,
+        this.#env,
+        allowCache,
+        dotnetOptions,
+      )
     }
 
     if (useDocker) {

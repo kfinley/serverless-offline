@@ -29,4 +29,5 @@ export default {
   dockerReadOnly: true,
   functionCleanupIdleTimeSeconds: 60,
   allowCache: false,
+  dotnetRunnerScript: 'invoke.ps1', // Default to built in script
 }

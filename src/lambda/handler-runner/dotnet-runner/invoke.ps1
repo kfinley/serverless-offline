@@ -37,20 +37,25 @@ public class FakeLambdaContext : ILambdaContext {
 Add-Type -ReferencedAssemblies $lambdaCore -TypeDefinition $fakeLambdaContextSource
 Add-Type -AssemblyName $dll
 
-$instance = New-Object $handlerPath
-# Get the Handler method we can determine the correct EventRequest type to use for deserializing event
-$handlerMethod = $instance.GetType().GetMethod($handler, [Reflection.BindingFlags] "Public,Instance")
-$handlerParams = $handlerMethod.GetParameters()
+try {
+    $instance = New-Object $handlerPath
+    # Get the Handler method we can determine the correct EventRequest type to use for deserializing event
+    $handlerMethod = $instance.GetType().GetMethod($handler, [Reflection.BindingFlags] "Public,Instance")
+    $handlerParams = $handlerMethod.GetParameters()
 
-# Create a fake to use for passing Type to DeserializeObject
-$fake = New-Object FakeLambdaContext
+    # Create a fake to use for passing Type to DeserializeObject
+    $fake = New-Object FakeLambdaContext
 
-# Deserialize param data
-$eventObj = [Newtonsoft.Json.JsonConvert]::DeserializeObject($eventInput, $handlerParams[0].ParameterType)
-$contextObj = [Newtonsoft.Json.JsonConvert]::DeserializeObject($context, $fake.GetType())
+    # Deserialize param data
+    $eventObj = [Newtonsoft.Json.JsonConvert]::DeserializeObject($eventInput, $handlerParams[0].ParameterType)
+    $contextObj = [Newtonsoft.Json.JsonConvert]::DeserializeObject($context, $fake.GetType())
 
-# Call the method on the Handler class instance
-$response = $instance.$handler($eventObj, $contextObj)
+    # Call the method on the Handler class instance
+    $response = $instance.$handler($eventObj, $contextObj)
 
-# Return the result Body
-Write-Host $response.Body -NoNewline
+    # Return the result Body
+    Write-Host "{""__offline_payload__"":$($response.Body)}" -NoNewline
+} catch {
+    Write-Host "Message: [$($_.Exception.Message)]"
+    Write-Host "Stack: $($_.Exception.InnerException)"
+  }

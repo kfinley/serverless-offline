@@ -1,1 +1,1 @@
-export { default } from './DotNetRunner.js'
+export { default } from './DotnetRunner.js'

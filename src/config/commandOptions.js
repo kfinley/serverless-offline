@@ -102,4 +102,8 @@ export default {
   allowCache: {
     usage: 'Allows the code of lambda functions to cache if supported',
   },
+  dotnetRunnerScript: {
+    usage:
+      'Path and filename for PowerShell script used by the DotnetRunner. Default: invoke.ps1 (built in file)',
+  },
 }

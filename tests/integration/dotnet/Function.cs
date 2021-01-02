@@ -14,16 +14,9 @@ namespace Serverless {
             var result = new {
                 message = "Hello, dotnetcore!"
             };
-
+            context.Logger.Log('This is a test log. Will not be included in response but will show in Debug console.');
             return new APIGatewayProxyResponse {
                 Body = Serialize(result, new DefaultLambdaJsonSerializer()),
-                StatusCode = 200,
-            };
-        }
-
-        public APIGatewayProxyResponse InputHandler(APIGatewayProxyRequest @event, ILambdaContext context) {
-            return new APIGatewayProxyResponse {
-                Body = @event.Body,
                 StatusCode = 200,
             };
         }
